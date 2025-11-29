@@ -22,15 +22,39 @@ const SoccerTracker = () => {
     }
   };
 
-  const handleIncrement = () => {
+  const handleIncrement = async () => {
     if (monthlyCount < 9) {
-      setMonthlyCount(monthlyCount + 1);
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || '';
+        const response = await fetch(`${apiUrl}/api/games/increment`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        setMonthlyCount(data.monthly || 0);
+      } catch (error) {
+        console.error('Error incrementing count:', error);
+      }
     }
   };
 
-  const handleDecrement = () => {
+  const handleDecrement = async () => {
     if (monthlyCount > 0) {
-      setMonthlyCount(monthlyCount - 1);
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || '';
+        const response = await fetch(`${apiUrl}/api/games/decrement`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        setMonthlyCount(data.monthly || 0);
+      } catch (error) {
+        console.error('Error decrementing count:', error);
+      }
     }
   };
 

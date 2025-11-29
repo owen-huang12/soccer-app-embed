@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface GameWatchedRepository extends JpaRepository<GameWatched, Long> {
@@ -15,4 +16,7 @@ public interface GameWatchedRepository extends JpaRepository<GameWatched, Long> 
 
     @Query("SELECT COUNT(g) FROM GameWatched g WHERE FUNCTION('MONTH', g.watchedAt) = :month AND FUNCTION('YEAR', g.watchedAt) = :year")
     long countGamesWatchedInMonth(int month, int year);
+
+    @Query("SELECT g FROM GameWatched g WHERE FUNCTION('MONTH', g.watchedAt) = :month AND FUNCTION('YEAR', g.watchedAt) = :year ORDER BY g.watchedAt DESC LIMIT 1")
+    Optional<GameWatched> findMostRecentGameInMonth(int month, int year);
 }

@@ -62,4 +62,30 @@ public class GameWatchedController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/increment")
+    public ResponseEntity<Map<String, Object>> incrementMonthlyCount() {
+        long newCount = service.incrementMonthlyCount();
+        LocalDate now = LocalDate.now();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("monthly", newCount);
+        response.put("month", now.getMonthValue());
+        response.put("year", now.getYear());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/decrement")
+    public ResponseEntity<Map<String, Object>> decrementMonthlyCount() {
+        long newCount = service.decrementMonthlyCount();
+        LocalDate now = LocalDate.now();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("monthly", newCount);
+        response.put("month", now.getMonthValue());
+        response.put("year", now.getYear());
+
+        return ResponseEntity.ok(response);
+    }
 }
