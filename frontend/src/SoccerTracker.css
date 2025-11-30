@@ -15,11 +15,11 @@
 .image-container {
   position: relative;
   width: 100vw;
-  height: calc(100vw * 406 / 866);
+  height: calc(100vw * 300 / 866);
   background: url(/assets/container.png) no-repeat center center;
   background-size: cover;
   border-radius: 15px;
-  box-shadow: 10px 2px 10px rgba(0, 0, 0, 0.5);
+  border: red solid 10px;
   display: flex;
   flex-direction: column;
   padding: 3.5vw 5.8vw;
@@ -48,7 +48,6 @@
   height: calc(100vw * 159 / 866);
   background: #FFFFFF;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: flex-end;
   justify-content: space-around;

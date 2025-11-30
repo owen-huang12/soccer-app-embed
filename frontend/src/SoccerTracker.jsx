@@ -14,7 +14,7 @@ const SoccerTracker = () => {
       const apiUrl = import.meta.env.VITE_API_URL || '';
       const response = await fetch(`${apiUrl}/api/games/count`);
       const data = await response.json();
-      setMonthlyCount(data.monthly || 0);
+      setMonthlyCount(data.count || 0);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching game count:', error);
@@ -33,7 +33,7 @@ const SoccerTracker = () => {
           },
         });
         const data = await response.json();
-        setMonthlyCount(data.monthly || 0);
+        setMonthlyCount(data.count || 0);
       } catch (error) {
         console.error('Error incrementing count:', error);
       }
@@ -51,7 +51,7 @@ const SoccerTracker = () => {
           },
         });
         const data = await response.json();
-        setMonthlyCount(data.monthly || 0);
+        setMonthlyCount(data.count || 0);
       } catch (error) {
         console.error('Error decrementing count:', error);
       }

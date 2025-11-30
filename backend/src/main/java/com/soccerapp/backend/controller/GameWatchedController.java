@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,33 +28,8 @@ public class GameWatchedController {
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Map<String, Object>> getGameCounts() {
-        LocalDate now = LocalDate.now();
-        int currentMonth = now.getMonthValue();
-        int currentYear = now.getYear();
-
-        long monthlyCount = service.getMonthlyCount(currentMonth, currentYear);
-        long totalCount = service.getTotalCount();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("monthly", monthlyCount);
-        response.put("total", totalCount);
-        response.put("month", currentMonth);
-        response.put("year", currentYear);
-
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/count/monthly")
-    public ResponseEntity<Map<String, Long>> getMonthlyCount(
-            @RequestParam(required = false) Integer month,
-            @RequestParam(required = false) Integer year) {
-
-        LocalDate now = LocalDate.now();
-        int targetMonth = month != null ? month : now.getMonthValue();
-        int targetYear = year != null ? year : now.getYear();
-
-        long count = service.getMonthlyCount(targetMonth, targetYear);
+    public ResponseEntity<Map<String, Long>> getGameCount() {
+        long count = service.getCount();
 
         Map<String, Long> response = new HashMap<>();
         response.put("count", count);
@@ -64,27 +38,21 @@ public class GameWatchedController {
     }
 
     @PostMapping("/increment")
-    public ResponseEntity<Map<String, Object>> incrementMonthlyCount() {
-        long newCount = service.incrementMonthlyCount();
-        LocalDate now = LocalDate.now();
+    public ResponseEntity<Map<String, Long>> increment() {
+        long newCount = service.increment();
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("monthly", newCount);
-        response.put("month", now.getMonthValue());
-        response.put("year", now.getYear());
+        Map<String, Long> response = new HashMap<>();
+        response.put("count", newCount);
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/decrement")
-    public ResponseEntity<Map<String, Object>> decrementMonthlyCount() {
-        long newCount = service.decrementMonthlyCount();
-        LocalDate now = LocalDate.now();
+    public ResponseEntity<Map<String, Long>> decrement() {
+        long newCount = service.decrement();
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("monthly", newCount);
-        response.put("month", now.getMonthValue());
-        response.put("year", now.getYear());
+        Map<String, Long> response = new HashMap<>();
+        response.put("count", newCount);
 
         return ResponseEntity.ok(response);
     }

@@ -5,7 +5,6 @@ import com.soccerapp.backend.repository.GameWatchedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,32 +22,22 @@ public class GameWatchedService {
         return repository.save(game);
     }
 
-    public long getMonthlyCount(int month, int year) {
-        return repository.countGamesWatchedInMonth(month, year);
-    }
-
-    public long getTotalCount() {
+    public long getCount() {
         return repository.count();
     }
 
-    public long incrementMonthlyCount() {
-        LocalDate now = LocalDate.now();
+    public long increment() {
         GameWatched game = new GameWatched();
         game.setGameTitle("Game watched");
         repository.save(game);
-        return getMonthlyCount(now.getMonthValue(), now.getYear());
+        return repository.count();
     }
 
-    public long decrementMonthlyCount() {
-        LocalDate now = LocalDate.now();
-        int currentMonth = now.getMonthValue();
-        int currentYear = now.getYear();
-
-        Optional<GameWatched> mostRecent = repository.findMostRecentGameInMonth(currentMonth, currentYear);
+    public long decrement() {
+        Optional<GameWatched> mostRecent = repository.findMostRecentGame();
         if (mostRecent.isPresent()) {
             repository.delete(mostRecent.get());
         }
-
-        return getMonthlyCount(currentMonth, currentYear);
+        return repository.count();
     }
 }
